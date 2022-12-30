@@ -21,6 +21,6 @@ export const updateUser = async(id, payload) => {
 }
 
 export const deleteUser = async(id) => {
-    const response = await api.delete(`/delete_user/${id}`)
+    const response = await api.put(`/delete_user/${id}`)
     return response
 }
