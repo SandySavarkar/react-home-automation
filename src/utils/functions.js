@@ -14,7 +14,8 @@ export const decodeToken = (token) => {
     return jwt_decode(token)
 }
 
-export const handleLogOut = () => {
+export const handleLogOut = (navigate) => {
     clearStorage()
     store.dispatch(logOutAdmin({}))
+    navigate && navigate('/login')
 }

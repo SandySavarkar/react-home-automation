@@ -5,3 +5,11 @@
   justify-content: space-between;
   align-items: center;
 }
+.loading{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loading p{
+  text-align: center;
+}

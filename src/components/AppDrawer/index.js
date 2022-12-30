@@ -46,7 +46,7 @@ function DrawerAppBar(props) {
 
   const handleMenu = (id, path) => {
     if(id === 'logout'){
-        handleLogOut()
+        handleLogOut(navigate)
     }else{
         setMobileOpen(false)
         navigate(path)

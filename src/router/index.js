@@ -7,6 +7,8 @@ const AllUsers = lazy(() => import('../components/user-management/allUsers'))
 const DeviceDetails = lazy(() => import('../components/device-management/deviceDetails'))
 const UserDetails = lazy(() => import('../components/user-management/userDetails'))
 const AddNewUser = lazy(() => import('../components/user-management/addNewUser'))
+const EditUser = lazy(() => import('../components/user-management/editUser'))
+const EditDevice = lazy(() => import('../components/device-management/editDevice'))
 
 export const allRoutes = [
     {
@@ -66,12 +68,28 @@ export const allRoutes = [
         element: <DeviceDetails/>
     },
     {
+        id: "edit_device",
+        label: "Edit Device",
+        exact: true,
+        path: "/edit-device/:id",
+        isPrivate: true,
+        element: <EditDevice/>
+    },
+    {
         id: "add_new_user",
         label: "New User",
         exact: true,
         path: "/add-new-user",
         isPrivate: true,
         element: <AddNewUser/>
+    },
+    {
+        id: "edit_user",
+        label: "Edit User",
+        exact: true,
+        path: "/edit-user/:id",
+        isPrivate: true,
+        element: <EditUser/>
     }
 ]
 

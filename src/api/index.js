@@ -4,7 +4,7 @@ import { getDataFromLocal } from '../utils/localstorage'
 
 
 const instance = axios.create({
-    baseURL: ''
+    baseURL: 'http://192.168.1.154:8090/api'
 })
 
 instance.interceptors.request.use(
@@ -13,6 +13,7 @@ instance.interceptors.request.use(
         config.headers['Accept'] = "application/json"
         config.headers['token'] = token
         config.headers['Content-Type'] = "application/json"
+        config.headers['Access-Control-Allow-Origin'] = "*"
         return config
     },
     error => Promise.reject(error)
