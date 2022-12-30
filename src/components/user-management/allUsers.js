@@ -2,7 +2,7 @@ import { Button, Grid } from '@mui/material'
 import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { getAllUsers } from '../../api/apis'
+import { deleteUser, getAllUsers } from '../../api/apis'
 import UserCard from '../../custom/UserCard'
 import { getAllUsersAction } from '../../redux/actions'
 
@@ -18,9 +18,23 @@ const AllUsers = ({ ...props }) => {
             const response = await getAllUsers()
             if (response?.data) {
                 setIsLoading(false)
-                setUsers(response?.data?.data)
-                dispatch(getAllUsersAction(response?.data?.data))
+                const filteredData = response?.data?.data?.filter((item) => !item.is_deleted)
+                console.log('filteredData: ', filteredData);
+                setUsers(filteredData)
+                dispatch(getAllUsersAction(filteredData))
             }
+        } catch (error) {
+            console.log('error', error)
+            setIsLoading(false)
+        }
+    }
+
+    const deleteUserData = async (id) => {
+        setIsLoading(true)
+        try {
+            await deleteUser(id)
+            setIsLoading(false)
+            getUsers()
         } catch (error) {
             console.log('error', error)
             setIsLoading(false)
@@ -42,6 +56,10 @@ const AllUsers = ({ ...props }) => {
         navigate(`/device/${id}`)
     }
 
+    const handleDelete = (id) => {
+        deleteUserData(id)
+    }
+
     return (
         <Fragment>
             <div className='heading' >
@@ -58,8 +76,8 @@ const AllUsers = ({ ...props }) => {
                                 {
                                     users?.map(({ _id, ...otherData }, index) => {
                                         return (
-                                            <Grid sx={{cursor: "pointer"}} key={_id} item sm={6} xs={12} md={4} xl={4}>
-                                                <UserCard {...{id: _id, index, handleView}} {...otherData} />
+                                            <Grid sx={{ cursor: "pointer" }} key={_id} item sm={6} xs={12} md={4} xl={4}>
+                                                <UserCard {...{ id: _id, index, handleView, handleDelete }}  {...otherData} />
                                             </Grid>
                                         )
                                     })
@@ -71,6 +89,7 @@ const AllUsers = ({ ...props }) => {
                     </Grid>
                 </div>
             }
+
         </Fragment>
     )
 }

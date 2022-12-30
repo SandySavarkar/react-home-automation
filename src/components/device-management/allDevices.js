@@ -2,7 +2,7 @@ import { Grid } from '@mui/material'
 import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { getAllDevices } from '../../api/apis'
+import { getAllDevices, deleteDevice } from '../../api/apis'
 import DeviceCard from '../../custom/DeviceCard'
 import { getAllDevicesAction } from '../../redux/actions'
 
@@ -36,6 +36,39 @@ const AllDevices = ({ ...props }) => {
         navigate(`/device/${id}`)
     }
 
+    const getDevices = async () => {
+        setIsLoading(true)
+        try {
+            const response = await getAllDevices()
+            if (response?.data) {
+                setIsLoading(false)
+                const filteredData = response?.data?.data?.filter((item) => !item.is_deleted)
+                console.log('filteredData: ', filteredData);
+                setDeviceData(filteredData)
+                dispatch(getAllDevicesAction(filteredData))
+            }
+        } catch (error) {
+            console.log('error', error)
+            setIsLoading(false)
+        }
+    }
+
+    const deleteDeviceData = async (id) => {
+        setIsLoading(true)
+        try {
+            await deleteDevice(id)
+            setIsLoading(false)
+            getDevices()
+        } catch (error) {
+            console.log('error', error)
+            setIsLoading(false)
+        }
+    }
+
+    const handleDelete = (id) => {
+        deleteDeviceData(id)
+    }
+
     console.log('deviceData', deviceData)
 
     return (
@@ -54,7 +87,7 @@ const AllDevices = ({ ...props }) => {
                                     deviceData?.map(({ _id, ...otherData }, index) => {
                                         return (
                                             <Grid sx={{cursor: "pointer"}} key={_id} item sm={6} xs={12} md={4} xl={4}>
-                                                <DeviceCard {...{id: _id, index, handleView}} {...otherData} />
+                                                <DeviceCard {...{id: _id, index, handleView, handleDelete}} {...otherData} />
                                             </Grid>
                                         )
                                     })

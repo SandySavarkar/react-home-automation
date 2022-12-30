@@ -4,7 +4,7 @@ import { getDataFromLocal } from '../utils/localstorage'
 
 
 const instance = axios.create({
-    baseURL: 'http://192.168.1.154:8090/api'
+    baseURL: 'http://192.168.0.12:8090/api'
 })
 
 instance.interceptors.request.use(
