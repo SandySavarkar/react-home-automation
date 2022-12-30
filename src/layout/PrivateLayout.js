@@ -1,9 +1,15 @@
 import React from 'react'
+import { Navigate, Outlet } from 'react-router-dom'
+import withAdmin from '../hoc/withAdmin'
 
-const PrivateLayout = () => {
+const PrivateLayout = ({isLoggedIn, ...props}) => {
   return (
-    <div>PrivateLayout</div>
+    <section className='admin_layout' >
+        <WithAdmin replace {...{to: '/'}} {...props} />
+    </section>
   )
 }
 
 export default PrivateLayout
+
+const WithAdmin = withAdmin(Outlet, Navigate)

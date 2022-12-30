@@ -1,0 +1,5 @@
+export const constant = {
+    IS_LOGGED_IN: "IS_LOGGED_IN",
+    LOGGED_OUT: "LOGGED_OUT",
+    GET_ADMIN_CREDENTIALS: "GET_ADMIN_CREDENTIALS"
+}
