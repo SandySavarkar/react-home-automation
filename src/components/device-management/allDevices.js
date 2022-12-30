@@ -43,7 +43,6 @@ const AllDevices = ({ ...props }) => {
             if (response?.data) {
                 setIsLoading(false)
                 const filteredData = response?.data?.data?.filter((item) => !item.is_deleted)
-                console.log('filteredData: ', filteredData);
                 setDeviceData(filteredData)
                 dispatch(getAllDevicesAction(filteredData))
             }
@@ -68,8 +67,6 @@ const AllDevices = ({ ...props }) => {
     const handleDelete = (id) => {
         deleteDeviceData(id)
     }
-
-    console.log('deviceData', deviceData)
 
     return (
         <Fragment>

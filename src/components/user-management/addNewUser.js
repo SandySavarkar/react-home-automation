@@ -30,7 +30,6 @@ const AddNewUser = ({ ...props }) => {
     try {
         const response = await registerNewUser(payload)
         if(response?.data){
-            console.log('response?.data', response?.data)
             setIsLoading(false)
             navigate('/all-users')
         }
@@ -58,7 +57,6 @@ const AddNewUser = ({ ...props }) => {
     try {
         const response = await getAllAvailableDevices()
         if(response?.data){
-            console.log('response?.data', response?.data)
             setDevicesName(response?.data?.data)
         }
     } catch (error) {

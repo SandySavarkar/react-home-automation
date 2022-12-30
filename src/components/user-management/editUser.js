@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, TextField, FormControl, InputLabel, Select, OutlinedInput, Checkbox, ListItemText, MenuItem, Grid } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { UserSchema } from '../../utils/validationSchema';
-import { registerNewUser } from '../../api/apis';
+import { getAllAvailableDevices, getAllDevices, getUser, registerNewUser, updateUser } from '../../api/apis';
+import { useParams } from 'react-router';
 
 
 const ITEM_HEIGHT = 48;
@@ -21,13 +22,15 @@ const EditUser = ({ ...props }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [devicesName, setDevicesName] = useState([]);
   const [personName, setPersonName] = useState([]);
+  const [user, setUser] = useState();
 
-  const handleSubmitUser = async (payload) => {
+  const { id } = useParams()
+
+  const handleUpdateUser = async (payload) => {
     setIsLoading(true)
     try {
-      const response = await registerNewUser(payload)
+      const response = await updateUser(id, payload)
       if (response?.data) {
-        console.log('response?.data', response?.data)
         setIsLoading(false)
       }
     } catch (error) {
@@ -36,10 +39,23 @@ const EditUser = ({ ...props }) => {
     }
   }
 
+  const getUserDetails = async () => {
+    try {
+      const response = await getUser(id)
+      if (response?.data) {
+        setUser(response?.data?.data)
+        setPersonName(response?.data?.data?.devices?.map(val => val?._id))
+      }
+    } catch (error) {
+      console.log('error', error)
+      setIsLoading(false)
+    }
+  }
+
   const handleSubmit = async (payload) => {
     const cloneData = { ...payload }
     cloneData['devices'] = personName
-    await handleSubmitUser(cloneData)
+    await handleUpdateUser(cloneData)
   }
 
   const handleChangeItem = (event) => {
@@ -49,25 +65,44 @@ const EditUser = ({ ...props }) => {
     );
   };
 
+  useEffect(() => {
+    getUserDetails();
+  }, [])
+
+  const getAllAvailablesDevices = async () => {
+    try {
+      const response = await getAllDevices()
+      if (response?.data) {
+        setDevicesName(response?.data?.data)
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  useEffect(() => {
+    getAllAvailablesDevices()
+  }, [])
+
   return (
     <Grid container sx={{ justifyContent: 'center' }} >
       <Grid item sm={6} xs={12} md={6} xl={6} >
         <Formik
           initialValues={{
-            name: '',
-            email: '',
-            password: '',
-            devices: []
+            name: user?.name,
+            email: user?.email,
+            devices: personName
           }}
-          validationSchema={UserSchema}
+          // validationSchema={UserSchema}
           onSubmit={handleSubmit}
+          enableReinitialize
         >
           {({ errors, touched, values, handleChange }) => (
             <Form>
               <TextField
                 id="name"
                 name='name'
-                label="Name"
+                placeholder="Name"
                 type="name"
                 variant="outlined"
                 fullWidth
@@ -80,27 +115,15 @@ const EditUser = ({ ...props }) => {
               <TextField
                 id="email"
                 name='email'
-                label="Email"
+                placeholder="Email"
                 type="email"
                 variant="outlined"
                 fullWidth
+                disabled={true}
                 value={values.email}
                 onChange={handleChange}
                 error={touched.email && Boolean(errors.email)}
                 helperText={touched.email && errors.email}
-                margin="normal"
-              />
-              <TextField
-                id="password"
-                name='password'
-                label="Password"
-                type="password"
-                variant="outlined"
-                fullWidth
-                value={values.password}
-                onChange={handleChange}
-                error={touched.password && Boolean(errors.password)}
-                helperText={touched.password && errors.password}
                 margin="normal"
               />
               <FormControl sx={{ width: '100%', marginTop: 1 }}>
@@ -118,7 +141,7 @@ const EditUser = ({ ...props }) => {
                 >
                   {devicesName.map((data) => (
                     <MenuItem key={data?._id} value={data?._id}>
-                      <Checkbox checked={personName.indexOf(data?._id) > -1} />
+                      <Checkbox checked={personName?.indexOf(data?._id) > -1} />
                       <ListItemText primary={data?.name} />
                     </MenuItem>
                   ))}

@@ -42,6 +42,11 @@ export const getAllUsers = async () => {
     return response
 }
 
+export const getUser = async (id) => {
+    const response = await api.get(`/getMyDetails/${id}`)
+    return response
+}
+
 export const getAllAvailableDevices = async () => {
     const response = await api.get('/availableDevices')
     return response

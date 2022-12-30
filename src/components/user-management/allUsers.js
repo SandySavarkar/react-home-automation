@@ -19,7 +19,6 @@ const AllUsers = ({ ...props }) => {
             if (response?.data) {
                 setIsLoading(false)
                 const filteredData = response?.data?.data?.filter((item) => !item.is_deleted)
-                console.log('filteredData: ', filteredData);
                 setUsers(filteredData)
                 dispatch(getAllUsersAction(filteredData))
             }
