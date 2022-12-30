@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, TextField, FormControl, InputLabel, Select, OutlinedInput, Checkbox, ListItemText, MenuItem, Grid } from '@mui/material'
 import { Form, Formik } from 'formik'
-import { UserSchema } from '../../utils/validationSchema';
-import { getAllAvailableDevices, getAllDevices, getUser, registerNewUser, updateUser } from '../../api/apis';
+import {  getAllDevices, getUser, updateUser } from '../../api/apis';
 import { useParams } from 'react-router';
 
 
@@ -67,6 +66,7 @@ const EditUser = ({ ...props }) => {
 
   useEffect(() => {
     getUserDetails();
+    // eslint-disable-next-line
   }, [])
 
   const getAllAvailablesDevices = async () => {
