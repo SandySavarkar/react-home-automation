@@ -1,4 +1,6 @@
 import jwt_decode from 'jwt-decode'
+import { logOutAdmin } from '../redux/actions'
+import { store } from '../store'
 import { clearStorage } from './localstorage'
 
 export const isTokenActivated = (token) => {
@@ -14,4 +16,5 @@ export const decodeToken = (token) => {
 
 export const handleLogOut = () => {
     clearStorage()
+    store.dispatch(logOutAdmin({}))
 }

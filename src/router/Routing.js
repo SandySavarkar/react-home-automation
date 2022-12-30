@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes, Navigate } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { isAuthRoutes, isPrivateRoutes } from '.'
 import NotFound from '../components/404'
 import AuthLayout from '../layout/AuthLayout'
