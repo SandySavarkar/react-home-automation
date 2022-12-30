@@ -1,10 +1,13 @@
 import { Grid } from '@mui/material'
 import React, { Fragment, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { getAllDevices } from '../../api/apis'
 import DeviceCard from '../../custom/DeviceCard'
+import { getAllDevicesAction } from '../../redux/actions'
 
 const AllDevices = ({ ...props }) => {
+    const dispatch = useDispatch()
     const [deviceData, setDeviceData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
@@ -16,6 +19,7 @@ const AllDevices = ({ ...props }) => {
             if(response?.data){
                 setIsLoading(false)
                 setDeviceData(response?.data?.data)
+                dispatch(getAllDevicesAction(response?.data?.data))
             }
         } catch (error) {
             setIsLoading(false)
@@ -25,6 +29,7 @@ const AllDevices = ({ ...props }) => {
 
     useEffect(() => {
         getAllDevicesData()
+        // eslint-disable-next-line
     },[])
 
     const handleView = (id) => {

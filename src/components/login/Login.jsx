@@ -1,9 +1,41 @@
 import { Button, Container, TextField } from '@mui/material'
 import { Form, Formik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { getAdminCredentials } from '../../api/apis'
+import { getAdminLoginCredentials } from '../../redux/actions'
+import { decodeToken, isTokenActivated } from '../../utils/functions'
+import { setDataFromLocal } from '../../utils/localstorage'
 import { loginSchema } from '../../utils/validationSchema'
 
 const Login = () => {
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(false)
+
+    const handleSubmit = async(payload) => {
+        setIsLoading(true)
+        try {
+            const response = await getAdminCredentials({...payload, type:'admin'})
+            if(response?.data){
+                const { data } = response?.data
+                setDataFromLocal('token', data?.token)
+                dispatch(dispatch(getAdminLoginCredentials({
+                    user: decodeToken(data?.token),
+                    isLoggedIn: isTokenActivated(data?.token),
+                    token: data?.token
+                  })))
+                setIsLoading(false)
+                navigate('/dashboard')
+            }
+        } catch (error) {
+            console.log('error', error)
+            setIsLoading(false)
+        }
+    }
+
   return (
     <Container maxWidth="xs" sx fixed className='login-box-container'>
 
@@ -14,7 +46,7 @@ const Login = () => {
             password: ''
           }}
           validationSchema={loginSchema}
-          onSubmit={() => console.log("Done")}
+          onSubmit={handleSubmit}
         >
           {({ errors, touched, values, handleChange }) => (
             <Form>
@@ -45,8 +77,8 @@ const Login = () => {
                 margin="normal"
               />
 
-              <Button type='submit' variant="contained" color="primary" fullWidth style={{ marginTop: 15 }} >
-                Login
+              <Button disabled={isLoading} type='submit' variant="contained" color="primary" fullWidth style={{ marginTop: 15 }} >
+                {isLoading ? "Please wait" : "Login"}
               </Button>
             </Form>
           )}

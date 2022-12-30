@@ -1,10 +1,13 @@
 import { Button, Grid } from '@mui/material'
 import React, { Fragment, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { getAllUsers } from '../../api/apis'
 import UserCard from '../../custom/UserCard'
+import { getAllUsersAction } from '../../redux/actions'
 
 const AllUsers = ({ ...props }) => {
+    const dispatch = useDispatch()
     const [isLoading, setIsLoading] = useState(false)
     const [users, setUsers] = useState([])
     const navigate = useNavigate()
@@ -16,6 +19,7 @@ const AllUsers = ({ ...props }) => {
             if (response?.data) {
                 setIsLoading(false)
                 setUsers(response?.data?.data)
+                dispatch(getAllUsersAction(response?.data?.data))
             }
         } catch (error) {
             console.log('error', error)
@@ -29,6 +33,7 @@ const AllUsers = ({ ...props }) => {
 
     useEffect(() => {
         getUsers()
+        // eslint-disable-next-line
     }, [])
 
     console.log('users', users)

@@ -13,3 +13,17 @@ export const getAdminLoginCredentials = (payload = {}) => {
         payload
     }
 }
+
+export const getAllDevicesAction = (payload = {}) => {
+    return {
+        type: constant.GET_ALL_DEVICES,
+        payload
+    }
+}
+
+export const getAllUsersAction = (payload = {}) => {
+    return {
+        type: constant.GET_ALL_USERS,
+        payload
+    }
+}
