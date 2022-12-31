@@ -63,7 +63,7 @@ const Login = () => {
                                 <TextField
                                     id="email"
                                     name='email'
-                                    label="Email"
+                                    placeholder="Email"
                                     type="email"
                                     variant="outlined"
                                     fullWidth
@@ -75,7 +75,7 @@ const Login = () => {
                                 <TextField
                                     id="password"
                                     name='password'
-                                    label="Password"
+                                    placeholder="Password"
                                     type="password"
                                     variant="outlined"
                                     fullWidth
