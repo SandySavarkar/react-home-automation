@@ -48,13 +48,13 @@ function DrawerAppBar(props) {
     if(id === 'logout'){
         handleLogOut(navigate)
     }else{
-        setMobileOpen(false)
+        handleDrawerToggle()
         navigate(path)
     }
   }
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+    <Box onClick={() => {}} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
         Smart Home
       </Typography>

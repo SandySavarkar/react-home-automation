@@ -137,19 +137,20 @@ const EditDevice = ({ ...props }) => {
                                                         value={manualConfig['watt_config'][index]}
                                                         onChange={(e) => handlePinConfig(e, 'watt_config')}
                                                         margin="normal"
-                                                        InputProps={{ inputProps: { min: 0} }}
+                                                        InputProps={{ inputProps: { min: 0, step: 'any'} }}
                                                     />
                                                     <TextField
                                                         id="watt"
                                                         name={index}
                                                         label="Pin Limit"
                                                         type="number"
+                                                        step='any'
                                                         variant="outlined"
                                                         fullWidth
                                                         value={manualConfig['limit_config'][index]}
                                                         onChange={(e) => handlePinConfig(e, 'limit_config')}
                                                         margin="normal"
-                                                        InputProps={{ inputProps: { min: 0} }}
+                                                        InputProps={{ inputProps: { min: 0,step: 'any'} }}
 
                                                     />
                                                 </div>
