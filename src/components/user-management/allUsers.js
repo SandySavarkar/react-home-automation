@@ -52,7 +52,7 @@ const AllUsers = ({ ...props }) => {
     console.log('users', users)
 
     const handleView = (id) => {
-        navigate(`/device/${id}`)
+        navigate(`/user-details/${id}`)
     }
 
     const handleDelete = (id) => {
@@ -82,7 +82,7 @@ const AllUsers = ({ ...props }) => {
                                     })
                                 }
                             </> : <div className='loading'>
-                                <p>No data found</p>
+                                <p style={{paddingLeft: "1.25rem"}}>No data found</p>
                             </div>
                         }
                     </Grid>

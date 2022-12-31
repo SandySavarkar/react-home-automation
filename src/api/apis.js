@@ -10,6 +10,15 @@ export const registerNewUser = async (payload) => {
     return response
 }
 
+export const getParticularDevide = async(id) => {
+    const response = await api.get(`/getDeviceDetails/${id}`)
+    return response
+}
+
+export const updateDeviceName = async(payload) => {
+    const response = await api.put('/updateDevice', payload)
+    return response
+}
 
 export const updateUser = async (id, payload) => {
     const response = await api.put(`/update_user/${id}`, payload)

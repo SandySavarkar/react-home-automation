@@ -2,13 +2,13 @@ import React from 'react'
 import { Button, CardContent, Typography, Card, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const DeviceCard = ({ index, id, handleView, handleDelete, ...data }) => {
+const DeviceCard = ({ index, id, handleView, handleDelete, isHide=false, ...data }) => {
 
     const navigate = useNavigate()
     const [open, setOpen] = React.useState(false);
 
     const handleOpen = () => {
-        setOpen(true);
+        handleDelete && setOpen(true);
     };
 
     const handleDeleteConfirmed = () => {
@@ -38,14 +38,14 @@ const DeviceCard = ({ index, id, handleView, handleDelete, ...data }) => {
                         Total Pins : {data?.pins?.length}
                     </Typography>
                 </CardContent>
-                <div style={{ padding: "1rem" }} >
+                {!isHide ? <div style={{ padding: "1rem" }} >
                     <Button onClick={() => navigate(`/edit-device/${id}`)} type='button' sx={{ marginRight: "1rem" }} variant="contained" size="small">
                         Edit
                     </Button>
                     <Button type='button' variant='outlined' size="small" onClick={handleOpen} >
                         Delete
                     </Button>
-                </div>
+                </div> : null}
             </Card>
             <Dialog
                 open={open}

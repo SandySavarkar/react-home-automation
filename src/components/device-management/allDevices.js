@@ -90,7 +90,7 @@ const AllDevices = ({ ...props }) => {
                                     })
                                 }
                             </> : <div className='loading'>
-                                <p>No data found</p>
+                                <p style={{paddingLeft: "1.25rem"}}>No data found</p>
                             </div>
                         }
                     </Grid>
